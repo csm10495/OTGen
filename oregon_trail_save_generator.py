@@ -49,51 +49,76 @@ PACE = {
     2 : 'Grueling',
 }
 
+STATUS = {
+    0 : 'Default',
+    1 : 'Exhaustion',
+    2 : 'Typhoid',
+    3 : 'Cholera',
+    4 : 'Measles',
+    5 : 'Dysentery',
+    6 : 'Fever',
+    7 : 'Broken Leg',
+    8 : 'Broken Arm',
+    9 : 'Snakebite',
+    15 : 'Deceased',
+}
+
 class SaveFileStructure(Structure):
     _pack_ = 1
     _fields_ = [
-        ('Company',          c_char * 4),   # MECC
-        ('Reserved1',        c_uint8),
-        ('GameTitle',        c_char * 28),  # The Oregon Trail for Windows
-        ('Reserved2',        c_int8 * 36),
-        ('SaveFileVersion',  c_char * 3),   # 1.0
-        ('Reserved3',        c_int8 * 10),
-        ('TemperatureString',c_uint8),      # Enum for string under thermometer
-        ('Unknown1',         c_uint8),
-        ('Unknown2',         c_uint8),
-        ('Reserved4_1',      c_int8 * 7),
-        ('DistanceTraveled', c_int16),
-        ('Reserved4_2',      c_int8 * 41),
-        ('Unknown3',         c_uint8),
-        ('Reserved5',        c_int8 * 2),
-        ('DistanceToLandmark', c_int16),
-        ('Reserved5_0_1',    c_int8 * 4),
-        ('Rations',          c_int16),
-        ('Pace',             c_uint8),
-        ('Reserved5_1',      c_int8 * 3),
-        ('Oxen',             c_int16),      # Number of Oxen
-        ('Reserved6',        c_int8 * 2),
-        ('SetsOfClothing',   c_int16),      # Number of Sets of Clothing
-        ('Bullets',          c_int16),      # Number of Bullets
-        ('SpareWagonWheels', c_int16),      # Number of Spare Wagon Wheels
-        ('SpareWagonAxels',  c_int16),      # Number of Spare Wagon Axels
-        ('SpareWagonTongues',c_int16),      # Number of Spare Wagon Tongues
-        ('NonPerishableFood',c_int16),      # Pounds of Non-Perishable Food
-        ('PerishableFood',   c_int16),      # Pounds of Perishable Food
-        ('MoneyInCents',     c_int32),      # Money in Cents
-        ('OccupationValue',  c_uint16),     # Job Enumeration
-        ('OccupationTitle',  c_char * 18),  # Job Title
-        ('Leader',           c_char * 14),
-        ('Reserved7',        c_int8),
-        ('PartyMember1',     c_char * 14),
-        ('Reserved8',        c_int8),
-        ('PartyMember2',     c_char * 14),
-        ('Reserved9',        c_int8),
-        ('PartyMember3',     c_char * 14),
-        ('Reserved10',       c_int8),
-        ('PartyMember4',     c_char * 14),
-        ('Reserved11',       c_int8),
-        ('Reserved12',       c_int8 * 25),
+        ('Company',           c_char * 4),   # MECC
+        ('Reserved1',         c_uint8),
+        ('GameTitle',         c_char * 28),  # The Oregon Trail for Windows
+        ('Reserved2',         c_int8 * 36),
+        ('SaveFileVersion',   c_char * 3),   # 1.0
+        ('Reserved3',         c_int8 * 10),
+        ('TemperatureString', c_uint8),      # Enum for string under thermometer
+        ('Unknown1',          c_uint8),
+        ('Unknown2',          c_uint8),
+        ('Reserved4_1',       c_int8 * 7),
+        ('DistanceTraveled',  c_int16),
+        ('Reserved4_2',       c_int8 * 41),
+        ('Unknown3',          c_uint8),
+        ('Reserved5',         c_int8 * 2),
+        ('DistanceToLandmark',c_int16),
+        ('Reserved5_0_1',     c_int8 * 4),
+        ('Rations',           c_int16),
+        ('Pace',              c_uint8),
+        ('Reserved5_1',       c_int8 * 3),
+        ('Oxen',              c_int16),      # Number of Oxen
+        ('Reserved6',         c_int8 * 2),
+        ('SetsOfClothing',    c_int16),      # Number of Sets of Clothing
+        ('Bullets',           c_int16),      # Number of Bullets
+        ('SpareWagonWheels',  c_int16),      # Number of Spare Wagon Wheels
+        ('SpareWagonAxels',   c_int16),      # Number of Spare Wagon Axels
+        ('SpareWagonTongues', c_int16),      # Number of Spare Wagon Tongues
+        ('NonPerishableFood', c_int16),      # Pounds of Non-Perishable Food
+        ('PerishableFood',    c_int16),      # Pounds of Perishable Food
+        ('MoneyInCents',      c_int32),      # Money in Cents
+        ('OccupationValue',   c_uint16),     # Job Enumeration
+        ('OccupationTitle',   c_char * 18),  # Job Title
+        ('Leader',            c_char * 14),
+        ('Reserved7',         c_int8),
+        ('PartyMember1',      c_char * 14),
+        ('Reserved8',         c_int8),
+        ('PartyMember2',      c_char * 14),
+        ('Reserved9',         c_int8),
+        ('PartyMember3',      c_char * 14),
+        ('Reserved10',        c_int8),
+        ('PartyMember4',      c_char * 14),
+        ('Reserved11',        c_int8),
+        ('Reserved12',        c_int8 * 11),
+        ('LeaderStatus',      c_int16),
+        ('PartyMember1Status',c_int16),
+        ('PartyMember2Status',c_int16),
+        ('PartyMember3Status',c_int16),
+        ('PartyMember4Status',c_int16),
+        ('Reserved13',        c_int8 * 4),
+        ('DateString',        c_char * 18),
+        ('PlaceholderYear',   c_int16),      # Year that doesn't have an effect
+        ('Year',              c_int16),      # Year
+        ('MonthOfYear',       c_int16),      # Month Of The Year
+        ('DayOfMonth',        c_int16),      # Day Of The Month
     ]
     
     DEFAULTS = {
@@ -107,6 +132,11 @@ class SaveFileStructure(Structure):
         'OccupationValue': OCCUPATION,
         'Pace': PACE,
         'Rations': RATIONS,
+        'LeaderStatus': STATUS,
+        'PartyMember1Status': STATUS,
+        'PartyMember2Status': STATUS,
+        'PartyMember3Status': STATUS,
+        'PartyMember4Status': STATUS,
     }
 
     def __str__(self):
@@ -116,7 +146,7 @@ class SaveFileStructure(Structure):
             #    continue
             attr =  getattr(self, fieldName)
             if fieldName in self.STR_HELPER:
-                attr = "%s (%s)" % (attr, self.STR_HELPER[fieldName].get(attr, ''))
+                attr = "%s (%s)" % (attr, self.STR_HELPER[fieldName].get(attr, 'Unknown'))
 
             try:
                 retStr += "%-20s: 0x%X (%d)\n" % (fieldName, attr, attr)
@@ -130,7 +160,11 @@ class SaveFileStructure(Structure):
             b = f.read()
 
         return cls.from_buffer(bytearray(b))
-        
+    
+    def save(self):
+        with open('save.gam', 'wb') as f:
+            f.write(bytearray(self))
+            
     @classmethod
     def makeSave(cls):
         s = cls()
